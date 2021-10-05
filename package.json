@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.2",
+    "inquirer": "^8.1.5",
     "node-google-translate-skidz": "^1.1.2",
     "readline-sync": "^1.4.10"
   }
