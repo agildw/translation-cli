@@ -9,6 +9,7 @@ let sourceLang = readlineSync.question('from lang code : ')
 let targetLang = readlineSync.question('to Lang code : ').toLowerCase();
 
 function useTranslate(scText, scLang, tgLang) {
+    console.log(`woi ${scText}`)
     translate({
         text: scText,
         source: scLang,
