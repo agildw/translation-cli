@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.22.0",
     "chalk": "^4.1.2",
     "inquirer": "^8.1.5",
+    "node-google-translate-skidz": "^1.1.2",
     "readline-sync": "^1.4.10"
   }
 }

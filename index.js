@@ -14,10 +14,13 @@ function useTranslate(scText, scLang, tgLang) {
         text: scText,
         source: scLang,
         target: tgLang
-    }, function mangan(result) {
-        console.log(`${chalk.green('========')}\nTranslation ${chalk.bold.green(result.src)} => ${chalk.bold.yellow(tgLang)}\n${chalk.green('========')}`)
-        console.log(`From language ${chalk.bold.green(result.src)}\n${chalk.bold.white(scText)}\n\nTo language ${chalk.bold.yellow(tgLang)}\n${chalk.bold.white(result.translation)}\n`)
-        console.log(result)
+    }, function (result) {
+        // console.log(result)
+        console.log(chalk.green('\n========'))
+        console.log(`Translation ${chalk.bold.green(result.src)} => ${chalk.bold.yellow(tgLang)}`)
+        console.log(chalk.green('========'))
+        console.log(`From language ${chalk.bold.green(result.src)}\n${chalk.bold.white(scText)}\n`)
+        console.log(`To language ${chalk.bold.yellow(tgLang)}\n${chalk.bold.white(result.sentences[0].trans)}\n`)
         if (result.spell.spell_res) {
             inquirer
                 .prompt([
@@ -46,16 +49,44 @@ function useTranslate(scText, scLang, tgLang) {
                     }
                 });
         }
+        else if (result.ld_result.srclangs[0] !== result.src) {
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        name: 'choiceTrue',
+                        message: `Translate from ${chalk.bold.blue(result.ld_result.srclangs[0])} ?`,
+                        choices: [
+                            'Yes',
+                            'No'
+                        ]
+                    }
+                ])
+                .then(answers => {
+                    // console.log(answers)
+                    if (answers.choiceTrue == 'Yes') {
+                        if (tgLang == result.ld_result.srclangs[0]) {
+                            useTranslate(result.sentences[0].orig, result.ld_result.srclangs[0], result.src)
+                        } else {
+                            useTranslate(result.sentences[0].orig, result.ld_result.srclangs[0], tgLang)
+                        }
+
+                    }
+                    else {
+                        return
+                    }
+
+                })
+                .catch((err) => {
+                    if (err.isTtyError) {
+                        console.log(err)
+                        // Prompt couldn't be rendered in the current environment
+                    } else {
+                        // Something else went wrong
+                    }
+                });
+        }
     });
 }
 
 useTranslate(sourceText, sourceLang, targetLang)
-// translate({
-//     text: sourceText,
-//     source: sourceLang,
-//     target: targetLang
-// }, function mangan(result) {
-//     console.log(`Translation ${chalk.green(result.src)} => ${chalk.yellow(targetLang)}\n${chalk.bold.white(result.translation)}\n`)
-
-//     // console.log(result);
-// });
