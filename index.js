@@ -3,19 +3,17 @@ const readlineSync = require('readline-sync');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 
-console.log(chalk.green(`view the supported language list, check ${chalk.bold.white('https://cloud.google.com/translate/docs/languages')}`))
 let sourceText = readlineSync.question('Enter sentence : ')
-let sourceLang = readlineSync.question('from lang code : ')
-let targetLang = readlineSync.question('to Lang code : ').toLowerCase();
+console.log(chalk.green(`You can check language code here ${chalk.bold.white('https://cloud.google.com/translate/docs/languages')}`))
+let sourceLang = readlineSync.question('from language code : ')
+let targetLang = readlineSync.question('to language code : ').toLowerCase();
 
 function useTranslate(scText, scLang, tgLang) {
-    console.log(`woi ${scText}`)
     translate({
         text: scText,
         source: scLang,
         target: tgLang
     }, function (result) {
-        // console.log(result)
         console.log(chalk.green('\n========'))
         console.log(`Translation ${chalk.bold.green(result.src)} => ${chalk.bold.yellow(tgLang)}`)
         console.log(chalk.green('========'))
@@ -43,9 +41,8 @@ function useTranslate(scText, scLang, tgLang) {
                 .catch((error) => {
                     if (error.isTtyError) {
                         console.log(error)
-                        // Prompt couldn't be rendered in the current environment
                     } else {
-                        // Something else went wrong
+                        return
                     }
                 });
         }
@@ -63,7 +60,6 @@ function useTranslate(scText, scLang, tgLang) {
                     }
                 ])
                 .then(answers => {
-                    // console.log(answers)
                     if (answers.choiceTrue == 'Yes') {
                         if (tgLang == result.ld_result.srclangs[0]) {
                             useTranslate(result.sentences[0].orig, result.ld_result.srclangs[0], result.src)
