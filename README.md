@@ -8,4 +8,4 @@ Translation app using google translate API
     npm install
 **After that run this command**
 
-    npm start
+    node index.js
